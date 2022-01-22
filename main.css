@@ -10,39 +10,59 @@
 
 body {
 	height: 100%;
-	/* overflow: hidden; */
 	margin: 0%;
-	background-color: black;
 }
 
 .main {
 	border: 1px solid black;
 	width: 100%;
 	position: fixed;
-	
 }
 
-.window {
+#window {
 	padding: 1% 1% 1% 1%;
 	position: absolute;
 	left: 0;
 	right: 0;
 	top: 0;
-	bottom: 30px;
+	bottom: 20px;
+	overflow: scroll;
+	height: auto;
 }
 
-.input {
+#window::-webkit-scrollbar {
+	width: 0;
+	background: transparent;
+}
+
+.output {
+	display: block;
 	width: 100%;
-	height: 30px;
+	height: 20px;
+	position: static;
+}
+
+#bottom {
+	height: 19px;
+	position: absolute;
+	bottom: 1px;
+	border: 1px solid green;
+	border-radius: 10px;
+	width: calc(98% - 4px);
 	padding: 1%;
+}
+
+#icon {
+	color: green;
+}
+
+#input {
+	width: 98%;
 	border: 0px;
 	margin: auto;
 	appearance: none;
-	position: absolute;
-	bottom: 10px;
-	font-size: 110%;
 }
 
-.input:focus {
+#input:focus {
 	outline: none;
 }
