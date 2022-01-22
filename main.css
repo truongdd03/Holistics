@@ -1,0 +1,48 @@
+* {
+	margin: 0px; 
+	padding: 0px;
+	font-family: sans-serif;
+	height: 100%;
+	color: green;
+	font-weight: bolder;
+	background-color: black;
+}
+
+body {
+	height: 100%;
+	/* overflow: hidden; */
+	margin: 0%;
+	background-color: black;
+}
+
+.main {
+	border: 1px solid black;
+	width: 100%;
+	position: fixed;
+	
+}
+
+.window {
+	padding: 1% 1% 1% 1%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 30px;
+}
+
+.input {
+	width: 100%;
+	height: 30px;
+	padding: 1%;
+	border: 0px;
+	margin: auto;
+	appearance: none;
+	position: absolute;
+	bottom: 10px;
+	font-size: 110%;
+}
+
+.input:focus {
+	outline: none;
+}
