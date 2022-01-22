@@ -7,6 +7,7 @@
 	p.className = "output";
 	p.style.color = color;
 	document.getElementById('window').appendChild(p);
+	document.getElementById('window').scrollTop = document.getElementById('window').scrollHeight;
 }
 
 /**
