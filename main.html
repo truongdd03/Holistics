@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="./classes/String.js"></script>
 		<script src="main.js"></script>
 		<link rel="stylesheet" type="text/css" href="main.css">
 	</head>
 
 	<body>
 		<div class="main">
-			<div class="window">
-				<p class="output">abc</p>
+			<div id="window">
 			</div>
-			<input class="input">
+			<div id="bottom">
+				<p id="icon">> <input id="input" value="" onchange="receiveInput()"></p>
+			</div>
 		</div>
 	</body>
 </html>
