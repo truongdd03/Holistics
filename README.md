@@ -1,12 +1,13 @@
 # Holistics - Ledis
 
-The main idea behind the implementation is to use two dictionaries (one for timeout and one for key-value) to store the data. At first, the program used the switch statement to indentify the commands. However, as the number of commands grew up, I decided to use a hash map to store these commands. This reduces a significant amount of code.
+The main idea behind the implementation is to use two dictionaries (one for timeout and one for key-value) to store the data. At first, the program used the switch statement to identify the commands and perform proper actions. However, as the number of commands grew up, I decided to use a hash map to store these commands. This reduces a significant amount of code. The most challenging requirement is saving and loading the old version. This feature was made using an additional dictionary.
 
 ## Notes
 
 - This program can ignore lowercase/uppercase letters and spaces in commands. That said, it can understand invalid commands such as `SeT_____Hello__World` (`_` are spaces). However, lowercase/uppercase letters in keys/values are treated differently ("Hello" is different from "hello").
 - The show timeout command (TTL) will display the remaining time that the key will be removed, not the origin timeout.
 - For simplicity, the timeout is lost after restoring the data. It's not so hard to allow the users to store multiple versions and save the timeout. But I decided not to do so since I didn't have much time.
+- This program will return undefined when users access to a key that doesn't exist.
 
 ## Features
 
