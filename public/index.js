@@ -1,6 +1,6 @@
 const CMD = ["set", "get", "sadd", 'srem', 'smembers', 'sinter', 'keys', 'del', 'expire', 'ttl', 'save', 'restore'];
 
-const D = new String({});
+const D = new Ledis({});
 
 /**
  * Get input when users type enter
@@ -44,6 +44,18 @@ function process(inputArr) {
 			break;
 		case "get":
 			D.get(inputArr);
+			break;
+		case "sadd":
+			D.sadd(inputArr);
+			break;
+		case "smembers":
+			D.smembers(inputArr);
+			break;
+		case "srem":
+			D.srem(inputArr);
+			break;
+		case "sinter":
+			D.sinter(inputArr);
 			break;
 	}
 }
