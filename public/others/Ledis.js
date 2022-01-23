@@ -97,6 +97,9 @@ class Ledis {
 		displayOk(`${this.dict[key].size} remaining element(s)`);
 	}
 
+	/**
+	 * Return the intersect of list of keys
+	 */
 	sinter(inputArr) {
 		if (!validateSetQuery(inputArr, 1, true, this.dict)) {
 			return;
