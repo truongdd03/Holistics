@@ -28,7 +28,7 @@ function displayOk(prompt = "OK") {
 /**
  * Display in red color
  */
-function disPlayError(prompt = "ERROR: Command not found") {
+function displayError(prompt = "ERROR: Command not found") {
 	display(prompt, "red");
 }
 

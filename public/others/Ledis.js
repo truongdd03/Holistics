@@ -1,6 +1,6 @@
 /**
  * The class holds all the information of this program.
- * this.dict is a dictionary. For each pair (key, value), the value's can be a string or a set
+ * this.dict is a dictionary. For each pair (key, value), the value can be a string or a set
  * this.timeout is a dictionary storing the timeout and the time at when the user set the timeout for each key.
  */
 class Ledis {
@@ -86,7 +86,7 @@ class Ledis {
 		}
 		const key = inputArr[1];
 		if (this.dict[key] === undefined) {
-			disPlayError("ERROR: key does not exist");
+			displayError("ERROR: key does not exist");
 			return;
 		}
 
@@ -159,7 +159,7 @@ class Ledis {
 			return;
 		}
 		if (this.timeout[inputArr[1]] !== undefined) {
-			disPlayError("ERROR: Failed to set timeout. This key is currently having a timeout");
+			displayError("ERROR: Failed to set timeout. This key is currently having a timeout");
 			return;
 		}
 		try {
@@ -171,7 +171,7 @@ class Ledis {
 			}, sec);
 			displayOk();
 		} catch (error) {
-			disPlayError("ERRORS: Invalid time or key");
+			displayError("ERRORS: Invalid time or key");
 		}
 	}
 

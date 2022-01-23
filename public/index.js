@@ -1,4 +1,4 @@
-const CMD = ["set", "get", "sadd", 'srem', 'smembers', 'sinter', 'keys', 'del', 'expire', 'ttl', 'save', 'restore'];
+const CMD = ["set", "get", "sadd", 'srem', 'smembers', 'sinter', 'keys', 'del', 'expire', 'ttl', 'save', 'restore', 'help'];
 
 const D = new Ledis();
 
@@ -25,12 +25,12 @@ function convertToArr(input) {
 	try {
 		inputArr[0] = inputArr[0].toLowerCase();
 		if (!CMD.includes(inputArr[0])) {
-			disPlayError();
+			displayError();
 			return;
 		}
 		process(inputArr);
 	} catch (error) {
-		disPlayError();
+		displayError();
 	}
 }
 
@@ -68,5 +68,9 @@ function process(inputArr) {
 			break;
 		case "ttl":
 			D.ttl(inputArr);
+			break;
+		case "help":
+			displayHelp(inputArr);
+			break;
 	}
 }
