@@ -1,6 +1,6 @@
 # Holistics - Ledis
 
-The main idea behind the implementation is to use two dictionaries (one for timeout and one for key-value) to store the data. The program splits each command into one different case to process easier. The utility functions (public/others/utility.js) are used in multiple cases, reducing the amount of code.
+The main idea behind the implementation is to use two dictionaries (one for timeout and one for key-value) to store the data. At first, the program used the switch statement to indentify the commands. However, as the number of commands grew up, I decided to use a hash map to store these commands. This reduces a significant amount of code.
 
 ## Notes
 
@@ -19,35 +19,35 @@ Completed all the required/optional features (details below). Besides that, I al
 
 ### Additional Features
 
-- [x] HELP / HELP + COMMAND: displaying help for all the commands or for a specific command
-
+- [x] HELP: displaying help for all the commands.
+- [x] HELP + COMMAND: displaying help for a specific command.
 ### Requirements
 
 #### String
 
-- [x] SET key value: set a string value, always overwriting what is saved under key
-- [x] GET key: get a string value at key
+- [x] SET key value: set a string value, always overwriting what is saved under key.
+- [x] GET key: get a string value at key.
 
 #### Set
 
-- [x] SADD key value1 [value2...]: add values to set stored at key
-- [x] SREM key value1 [value2...]: remove values from set
-- [x] SMEMBERS key: return array of all members of set
+- [x] SADD key value1 [value2...]: add values to set stored at key.
+- [x] SREM key value1 [value2...]: remove values from set.
+- [x] SMEMBERS key: return array of all members of set.
 
 #### Data Expiration
 
-- [x] KEYS: List all available keys
-- [x] DEL key: delete a key
-- [x] EXPIRE key seconds: set a timeout on a key, seconds is a positive integer (by default a key has no expiration). Return the number of seconds if the timeout is set
-- [x] TTL key: query the timeout of a key
+- [x] KEYS: List all available keys.
+- [x] DEL key: delete a key.
+- [x] EXPIRE key seconds: set a timeout on a key, seconds is a positive integer (by default a key has no expiration). Return the number of seconds if the timeout is set.
+- [x] TTL key: query the timeout of a key.
 
 #### Error Handling
 
-- [x] Detect errors
+- [x] Detect errors.
 
 ### Optional Features
 
-- [x] Display detailed informations about errors
-- [x] SINTER [key1] [key2] [key3] ...: (bonus) set intersection among all set stored in specified keys. Return array of members of the result set
-- [x] SAVE: save current state in a snapshot
-- [x] RESTORE: restore from the last snapshot
+- [x] Display detailed informations about errors.
+- [x] SINTER [key1] [key2] [key3] ...: (bonus) set intersection among all set stored in specified keys. Return array of members of the result set.
+- [x] SAVE: save current state in a snapshot.
+- [x] RESTORE: restore from the last snapshot.
