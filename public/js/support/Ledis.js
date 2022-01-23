@@ -3,6 +3,16 @@
  * this.dict is a dictionary. For each pair (key, value), the value can be a string or a set
  * this.timeout is a dictionary storing the timeout and the time at when the user set the timeout for each key.
  */
+
+import {
+	display, 
+	displayOk, 
+	displayError, 
+	validateParams, 
+	validateSetQuery, 
+	displayInvalidType
+ } from "./utility.js";
+
 export class Ledis {
 	constructor(dict, timeout) {
 		this.dict = Object.assign({}, dict);
@@ -100,7 +110,7 @@ export class Ledis {
 		for (let i = 1; i < inputArr.length; ++i) {
 			var key = inputArr[i];
 			if (!(this.dict[key] instanceof Set)) {
-				displayWarning(key);
+				display(`WARNING: The value of key "${key}" is not a set`, "yellow");
 				ans.clear();
 				first = false;
 			} else if (!first) {
@@ -119,10 +129,7 @@ export class Ledis {
 	 * Return all the keys
 	 */
 	keys(inputArr) {
-		if (inputArr.length > 1) {
-			displayInvalidParams(inputArr.length - 1, 0);
-			return;
-		}
+		if (!validateParams(inputArr, 1, false)) { return; }
 
 		const output = Array.from(Object.keys(this.dict)).join(', ');
 		displayOk(`[${output}]`);

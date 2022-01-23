@@ -1,7 +1,7 @@
 /**
  * Display the prompt to the window
  */
-function display(prompt, color) {
+export function display(prompt, color) {
 	var p = document.createElement('p');
 	p.textContent = `> ${prompt}`;
 	p.className = "output";
@@ -21,35 +21,28 @@ function displayInvalidParams(given, expected) {
 /**
  * Display in green color
  */
-function displayOk(prompt = "OK") {
+export function displayOk(prompt = "OK") {
 	display(prompt, "green");
 }
 
 /**
  * Display in red color
  */
-function displayError(prompt = "ERROR: Command not found") {
+export function displayError(prompt = "ERROR: Command not found") {
 	display(prompt, "red");
 }
 
 /**
  * Display the prompt of invalid type
  */
-function displayInvalidType(expected) {
+export function displayInvalidType(expected) {
 	display(`ERROR: Invalid type (Cannot perform this command since the current key is assigned to a ${expected})`, "red");
-}
-
-/**
- * Display a warning
- */
-function displayWarning(key) {
-	display(`WARNING: The value of key "${key}" is not a set`, "yellow");
 }
 
 /**
  * Check if the inputs is valid for set queries
  */
-function validateSetQuery(inputArr, expect, canBeGreater, dict) {
+export function validateSetQuery(inputArr, expect, canBeGreater, dict) {
 	if (!validateParams(inputArr, expect, canBeGreater)) {
 		return false;
 	}
@@ -65,7 +58,7 @@ function validateSetQuery(inputArr, expect, canBeGreater, dict) {
 /**
  * Check if the number of parameters is valid
  */
-function validateParams(inputArr, expect, canBeGreater) {
+export function validateParams(inputArr, expect, canBeGreater) {
 	if ((canBeGreater && inputArr.length - 1 < expect) || (!canBeGreater && inputArr.length != expect)) {
 		var paramStr = expect - 1;
 		if (canBeGreater) {

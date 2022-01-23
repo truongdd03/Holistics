@@ -1,13 +1,13 @@
 /**
  * Code for storing and loading a specific state
  */
- 
+
+import { validateParams, display, displayError, displayOk } from "./utility.js";
+
 var storage = undefined;
 export function save(inputArr , d) {
-	if (inputArr.length != 1) {
-		displayInvalidParams(inputArr.length - 1, 0);
-		return;
-	}
+	if (!validateParams(inputArr, 1, false)) { return; }
+
 	if (storage != undefined) {
 		display("WARNING: Overwrote a previous state", "yellow");
 	}
@@ -17,10 +17,8 @@ export function save(inputArr , d) {
 }
 
 export function restore(inputArr, d) {
-	if (inputArr.length != 1) {
-		displayInvalidParams(inputArr.length - 1, 0);
-		return;
-	}
+	if (!validateParams(inputArr, 1, false)) { return; }
+
 	if (storage == undefined) {
 		displayError("ERROR: Haven't saved yet");
 		return;

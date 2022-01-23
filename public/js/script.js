@@ -1,11 +1,12 @@
 import { Ledis } from './support/Ledis.js';
 import { save, restore } from './support/snapshot.js';
 import { displayHelp } from './support/help.js';
+import { displayError } from './support/utility.js';
 
 var D = new Ledis({}, {});
 
 // Couldn't find a better way to do this. 
-// This map replaces the switch statement and reduces a significant amount of code.
+// This map replaces the switch statement and reduces significant amount of code.
 const EXECUTE = {
 	'set': (arr) => D.set(arr),
 	'get': (arr) => D.get(arr),
@@ -39,6 +40,7 @@ export function convertToArr(input) {
 			displayError();
 			return;
 		}
+		// Execute the command
 		EXECUTE[inputArr[0]](inputArr, D);
 	} catch (error) {
 		displayError();

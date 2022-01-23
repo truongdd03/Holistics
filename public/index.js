@@ -1,4 +1,5 @@
 import { convertToArr, suggest } from './js/script.js';
+import { display } from './js/support/utility.js';
 
 /**
  * Get input when users type enter
