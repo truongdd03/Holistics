@@ -79,6 +79,4 @@ function process(inputArr) {
 			restore(inputArr, D);
 			break;
 	}
-
-	console.log(storage);
 }

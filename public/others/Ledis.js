@@ -13,10 +13,8 @@ class Ledis {
 	 * Replace the value of a specific key by a string.
 	 */
 	set(inputArr) {
-		if (inputArr.length != 3) {
-			displayInvalidParams(inputArr.length - 1, 2);
-			return;
-		}
+		if (!validateParams(inputArr, 3, false)) { return; }
+
 		const key = inputArr[1], val = inputArr[2];
 		this.dict[key] = val;
 		displayOk();
@@ -27,10 +25,8 @@ class Ledis {
 	 * Throw an error if the value of this key is a set.
 	 */
 	get(inputArr) {
-		if (inputArr.length != 2) {
-			displayInvalidParams(inputArr.length - 1, 1);
-			return;
-		}
+		if (!validateParams(inputArr, 2, false)) { return; }
+
 		var key = inputArr[1];
 		if (typeof this.dict[key] !== "string" && this.dict[key] !== undefined) {
 			displayInvalidType("set");
@@ -45,9 +41,7 @@ class Ledis {
 	 * The new set will replace the old set of this key.
 	 */
 	sadd(inputArr) {
-		if (!validateSetQuery(inputArr, 2, true, this.dict)) {
-			return;
-		};
+		if (!validateSetQuery(inputArr, 2, true, this.dict)) { return; };
 
 		const key = inputArr[1];
 		if (this.dict[key] === undefined) {
@@ -63,9 +57,7 @@ class Ledis {
 	 * Throw an error if the value of this key is a string.
 	 */
 	smembers(inputArr) {
-		if (!validateSetQuery(inputArr, 2, false, this.dict)) {
-			return;
-		};
+		if (!validateSetQuery(inputArr, 2, false, this.dict)) { return; };
 
 		var key = inputArr[1];
 		try {
@@ -81,9 +73,8 @@ class Ledis {
 	 * Throw an error if the value of this key is a string
 	 */
 	srem(inputArr) {
-		if (!validateSetQuery(inputArr, 2, true, this.dict)) {
-			return;
-		}
+		if (!validateSetQuery(inputArr, 2, true, this.dict)) { return; }
+
 		const key = inputArr[1];
 		if (this.dict[key] === undefined) {
 			displayError("ERROR: key does not exist");
@@ -103,15 +94,13 @@ class Ledis {
 	 * Return the intersect of list of keys
 	 */
 	sinter(inputArr) {
-		if (!validateSetQuery(inputArr, 1, true, this.dict)) {
-			return;
-		}
+		if (!validateSetQuery(inputArr, 1, true, this.dict)) { return; }
 
 		var ans = new Set(), first = true;
 		for (let i = 1; i < inputArr.length; ++i) {
 			var key = inputArr[i];
 			if (!(this.dict[key] instanceof Set)) {
-				displayWarning();
+				displayWarning(key);
 				ans.clear();
 				first = false;
 			} else if (!first) {
@@ -134,6 +123,7 @@ class Ledis {
 			displayInvalidParams(inputArr.length - 1, 0);
 			return;
 		}
+
 		const output = Array.from(Object.keys(this.dict)).join(', ');
 		displayOk(`[${output}]`);
 	}
@@ -142,11 +132,10 @@ class Ledis {
 	 * Delete a key
 	 */
 	del(inputArr) {
-		if (inputArr.length != 2) {
-			displayInvalidParams(inputArr.length-1, 1);
-			return;
-		}
+		if (!validateParams(inputArr, 2, false)) { return; }
+
 		delete(this.dict[inputArr[1]]);
+		delete(this.timeout[inputArr[1]]);
 		displayOk();
 	}
 
@@ -154,40 +143,37 @@ class Ledis {
 	 * Set a timeout on a key
 	 */
 	expire(inputArr) {
-		if (inputArr.length - 1 != 2) {
-			displayInvalidParams(inputArr.length-1, 2);
-			return;
-		}
+		if (!validateParams(inputArr, 3, false)) { return; }
+
+		var key = inputArr[1], sec = parseInt(inputArr[2]) * 1000;
 		if (this.timeout[inputArr[1]] !== undefined) {
 			displayError("ERROR: Failed to set timeout. This key is currently having a timeout");
 			return;
 		}
-		try {
-			var key = inputArr[1], sec = parseInt(inputArr[2]) * 1000;
-			this.timeout[key] = [sec, new Date()];
-			setTimeout(() => {
-				// Need to check since a restore action can make this timeout become undefine.
-				// In that case, we no longer need to remove this key.
-				if (this.timeout[key] != undefined) {
-					delete this.dict[key];
-					delete this.timeout[key];
-					display(`The key ${key} has been deleted due to timeout`, "purple");
-				}
-			}, sec);
-			displayOk();
-		} catch (error) {
-			displayError("ERRORS: Invalid time or key");
+		if (isNaN(sec) || sec < 0) {
+			displayError("ERROR: Invalid time");
+			return;
 		}
+
+		this.timeout[key] = [sec, new Date()];
+		setTimeout(() => {
+			// Need to check since a restore action can make this timeout become undefine.
+			// In that case, we no longer need to remove this key.
+			if (this.timeout[key] != undefined) {
+				delete this.dict[key];
+				delete this.timeout[key];
+				display(`The key ${key} has been deleted due to timeout`, "purple");
+			}
+		}, sec);
+		displayOk();
 	}
 
 	/**
 	 * Return the timeout of a key
 	 */
 	ttl(inputArr) {
-		if (inputArr.length - 1 != 1) {
-			displayInvalidParams(inputArr.length - 1, 1);
-			return;
-		}
+		if (!validateParams(inputArr, 2, false)) { return; }
+
 		const key = inputArr[1];
 		if (this.timeout[key] === undefined) {
 			displayOk("undefined");

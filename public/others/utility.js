@@ -42,27 +42,36 @@ function displayInvalidType(expected) {
 /**
  * Display a warning
  */
-function displayWarning(prompt = "WARNING: Some values are not sets") {
-	display(prompt, "yellow");
+function displayWarning(key) {
+	display(`WARNING: The value of key "${key}" is not a set`, "yellow");
 }
 
 /**
  * Check if the inputs is valid for set queries
  */
- function validateSetQuery(inputArr, params, canBeGreater, dict) {
-	if ((canBeGreater && inputArr.length < params + 1) || 
-		(!canBeGreater && inputArr.length != params)) {
-		var paramStr = params - 1;
-		if (canBeGreater) {
-			paramStr = `>= ${params}`;
-		}
-		displayInvalidParams(inputArr.length - 1, paramStr);
+ function validateSetQuery(inputArr, expect, canBeGreater, dict) {
+	if (!validateParams(inputArr, expect, canBeGreater)) {
 		return false;
 	}
 
 	const key = inputArr[1];
 	if (typeof(dict[key]) === 'string') {
 		displayInvalidType("string");
+		return false;
+	}
+	return true;
+}
+
+/**
+ * Check if the number of parameters is valid
+ */
+function validateParams(inputArr, expect, canBeGreater) {
+	if ((canBeGreater && inputArr.length - 1 < expect) || (!canBeGreater && inputArr.length != expect)) {
+		var paramStr = expect - 1;
+		if (canBeGreater) {
+			paramStr = `>= ${expect}`;
+		}
+		displayInvalidParams(inputArr.length - 1, paramStr);
 		return false;
 	}
 	return true;
