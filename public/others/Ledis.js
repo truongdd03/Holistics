@@ -1,10 +1,12 @@
 /**
  * The class holds all the information of this program.
  * this.dict is a dictionary. For each pair (key, value), the value's can be a string or a set
+ * this.timeout is a dictionary storing the timeout and the time at when the user set the timeout for each key.
  */
 class Ledis {
-	constructor(dict) {
-		this.dict = dict;
+	constructor() {
+		this.dict = {};
+		this.timeout = {};
 	}
 
 	/**
@@ -122,5 +124,76 @@ class Ledis {
 
 		const output = Array.from(ans).join(', ');
 		display(`{${output.toString()}}`, "green");	
+	}
+
+	/**
+	 * Return all the keys
+	 */
+	keys(inputArr) {
+		if (inputArr.length > 1) {
+			displayInvalidParams(inputArr.length - 1, 0);
+			return;
+		}
+		const output = Array.from(Object.keys(this.dict)).join(', ');
+		displayOk(`[${output}]`);
+	}
+
+	/**
+	 * Delete a key
+	 */
+	del(inputArr) {
+		if (inputArr.length != 2) {
+			displayInvalidParams(inputArr.length-1, 1);
+			return;
+		}
+		delete(this.dict[inputArr[1]]);
+		displayOk();
+	}
+
+	/**
+	 * Set a timeout on a key
+	 */
+	expire(inputArr) {
+		if (inputArr.length - 1 != 2) {
+			displayInvalidParams(inputArr.length-1, 2);
+			return;
+		}
+		if (this.timeout[inputArr[1]] !== undefined) {
+			disPlayError("ERROR: Failed to set timeout. This key is currently having a timeout");
+			return;
+		}
+		try {
+			var key = inputArr[1], sec = parseInt(inputArr[2]) * 1000;
+			this.timeout[key] = [sec, new Date()];
+			setTimeout(() => {
+				delete this.dict[key];
+				display(`The key ${key} has been deleted due to timeout`, "purple");
+			}, sec);
+			displayOk();
+		} catch (error) {
+			disPlayError("ERRORS: Invalid time or key");
+		}
+	}
+
+	/**
+	 * Return the timeout of a key
+	 */
+	ttl(inputArr) {
+		if (inputArr.length - 1 != 1) {
+			displayInvalidParams(inputArr.length - 1, 1);
+			return;
+		}
+		const key = inputArr[1];
+		if (this.timeout === undefined) {
+			displayOk("undefined");
+			return;
+		}
+
+		const originTimeout = this.timeout[key][0], timeSet = this.timeout[key][1];
+		const currentDate = new Date();
+
+		// The current timeout = (the origin timeout) - (duration from the moment setting the timeout to now)
+		const time = originTimeout - (currentDate.getTime() - timeSet.getTime());
+		displayOk(`The key ${key} will be deleted after ${time/1000} seconds`);
 	}
 }
