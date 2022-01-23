@@ -3,8 +3,7 @@
  */
  
 var storage = undefined;
-
-function save(inputArr , d) {
+export function save(inputArr , d) {
 	if (inputArr.length != 1) {
 		displayInvalidParams(inputArr.length - 1, 0);
 		return;
@@ -17,7 +16,7 @@ function save(inputArr , d) {
 	displayOk("Saved!");
 }
 
-function restore(inputArr, d) {
+export function restore(inputArr, d) {
 	if (inputArr.length != 1) {
 		displayInvalidParams(inputArr.length - 1, 0);
 		return;

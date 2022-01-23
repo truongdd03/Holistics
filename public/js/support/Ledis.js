@@ -3,7 +3,7 @@
  * this.dict is a dictionary. For each pair (key, value), the value can be a string or a set
  * this.timeout is a dictionary storing the timeout and the time at when the user set the timeout for each key.
  */
-class Ledis {
+export class Ledis {
 	constructor(dict, timeout) {
 		this.dict = Object.assign({}, dict);
 		this.timeout = Object.assign({}, timeout);
