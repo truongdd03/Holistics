@@ -54,3 +54,6 @@ Completed all the required/optional features (details below). Besides that, I al
 
 - You need to have node.js and npm installed before being able to run this program.
 - After cloning the project and directing to its directory, run ` $node app.js `. The program should then be available at http://localhost:3000/.
+
+## Demo
+![](demo.gif)
