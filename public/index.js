@@ -1,6 +1,6 @@
 const CMD = ["set", "get", "sadd", 'srem', 'smembers', 'sinter', 'keys', 'del', 'expire', 'ttl', 'save', 'restore', 'help'];
 
-const D = new Ledis();
+const D = new Ledis({}, {});
 
 /**
  * Get input when users type enter
@@ -72,5 +72,13 @@ function process(inputArr) {
 		case "help":
 			displayHelp(inputArr);
 			break;
+		case "save":
+			save(inputArr, D);
+			break;
+		case "restore":
+			restore(inputArr, D);
+			break;
 	}
+
+	console.log(storage);
 }

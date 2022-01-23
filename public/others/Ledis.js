@@ -4,9 +4,9 @@
  * this.timeout is a dictionary storing the timeout and the time at when the user set the timeout for each key.
  */
 class Ledis {
-	constructor() {
-		this.dict = {};
-		this.timeout = {};
+	constructor(dict, timeout) {
+		this.dict = Object.assign({}, dict);
+		this.timeout = Object.assign({}, timeout);
 	}
 
 	/**
@@ -166,8 +166,13 @@ class Ledis {
 			var key = inputArr[1], sec = parseInt(inputArr[2]) * 1000;
 			this.timeout[key] = [sec, new Date()];
 			setTimeout(() => {
-				delete this.dict[key];
-				display(`The key ${key} has been deleted due to timeout`, "purple");
+				// Need to check since a restore action can make this timeout become undefine.
+				// In that case, we no longer need to remove this key.
+				if (this.timeout[key] != undefined) {
+					delete this.dict[key];
+					delete this.timeout[key];
+					display(`The key ${key} has been deleted due to timeout`, "purple");
+				}
 			}, sec);
 			displayOk();
 		} catch (error) {
@@ -184,7 +189,7 @@ class Ledis {
 			return;
 		}
 		const key = inputArr[1];
-		if (this.timeout === undefined) {
+		if (this.timeout[key] === undefined) {
 			displayOk("undefined");
 			return;
 		}

@@ -7,6 +7,7 @@ The main idea behind the implementation is to use two dictionaries (one for time
 - This program can ignore lowercase/uppercase letters and spaces in commands. That said, it can understand invalid commands such as `SeT_____Hello__World` (`_` are spaces). However, lowercase/uppercase letters in keys/values are treated differently ("Hello" is different from "hello").
 - The set timeout command (EXPIRE) will delete the selected key after a specific amount of time. Note that there is no way to cancel this action. Even if the user deletes that key, the key will be deleted one more time if there is still a timeout.
 - The show timeout command (TTL) will display the remaining time that the key will be removed, not the origin timeout.
+- For simplicity, the timeout is lost after restoring the data. It's not so hard to allow the users to store multiple versions and save the timeout. But I decided not to do so since I didn't have much time.
 
 ## Set up
 
@@ -14,6 +15,12 @@ The main idea behind the implementation is to use two dictionaries (one for time
 - After cloning the project and directing to its directory, run ` $node app.js `. The program should then be available at http://localhost:3000/.
 
 ## Features
+
+- Completed all the required/optional features (details below). Besides that, I also added some other features.
+
+### Additional features
+
+- [x] HELP / HELP + COMMAND: displaying help for all the commands or for a specific command
 
 ### Requirements
 
@@ -42,9 +49,6 @@ The main idea behind the implementation is to use two dictionaries (one for time
 ### Optional:
 
 - [x] Display detailed informations about errors
-
 - [x] SINTER [key1] [key2] [key3] ...: (bonus) set intersection among all set stored in specified keys. Return array of members of the result set
-
-- [ ] SAVE: save current state in a snapshot
-
-- [ ] RESTORE: restore from the last snapshot
+- [x] SAVE: save current state in a snapshot
+- [x] RESTORE: restore from the last snapshot
