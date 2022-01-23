@@ -53,9 +53,9 @@ body {
 }
 
 #input {
-	width: 98%;
+	width: 95%;
 	border: 0px;
-	margin: auto;
+	margin: auto 1% auto 1%;
 	appearance: none;
 }
 
