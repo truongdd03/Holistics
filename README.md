@@ -17,10 +17,10 @@
 
 #### Data Expiration
 
-- [x] KEYS: List all available keys
-- [x] DEL key: delete a key
-- [x] EXPIRE key seconds: set a timeout on a key, seconds is a positive integer (by default a key has no expiration). Return the number of seconds if the timeout is set
-- [x] TTL key: query the timeout of a key
+- [ ] KEYS: List all available keys
+- [ ] DEL key: delete a key
+- [ ] EXPIRE key seconds: set a timeout on a key, seconds is a positive integer (by default a key has no expiration). Return the number of seconds if the timeout is set
+- [ ] TTL key: query the timeout of a key
 
 #### Error Handling
 
