@@ -22,6 +22,9 @@ const EXECUTE = {
 	'restore': (arr, D) => restore(arr, D)
 }
 
+const CMDS = Object.keys(EXECUTE);
+CMDS.sort();
+
 /**
  * Convert the input into an array and execute the command
  */
@@ -40,4 +43,20 @@ export function convertToArr(input) {
 	} catch (error) {
 		displayError();
 	}
+}
+
+/**
+ * Suggest a command for user. Used for auto-completing
+ */
+export function suggest(prefix, viewed) {
+	if (prefix === "") return input;
+
+	for (let key of CMDS) {
+		if (key.indexOf(prefix) === 0 && viewed[key] === undefined) {
+			viewed[key] = true;
+			return key;
+		}
+	}
+	viewed = {};
+	return "";
 }

@@ -8,11 +8,6 @@ The main idea behind the implementation is to use two dictionaries (one for time
 - The show timeout command (TTL) will display the remaining time that the key will be removed, not the origin timeout.
 - For simplicity, the timeout is lost after restoring the data. It's not so hard to allow the users to store multiple versions and save the timeout. But I decided not to do so since I didn't have much time.
 
-## Set up
-
-- You need to have node.js and npm installed before being able to run this program.
-- After cloning the project and directing to its directory, run ` $node app.js `. The program should then be available at http://localhost:3000/.
-
 ## Features
 
 Completed all the required/optional features (details below). Besides that, I also added some other features that may be useful.
@@ -21,6 +16,8 @@ Completed all the required/optional features (details below). Besides that, I al
 
 - [x] HELP: displaying help for all the commands.
 - [x] HELP + COMMAND: displaying help for a specific command.
+- [x] Auto-complete: complete the input when users click tab.
+
 ### Requirements
 
 #### String
@@ -51,3 +48,8 @@ Completed all the required/optional features (details below). Besides that, I al
 - [x] SINTER [key1] [key2] [key3] ...: (bonus) set intersection among all set stored in specified keys. Return array of members of the result set.
 - [x] SAVE: save current state in a snapshot.
 - [x] RESTORE: restore from the last snapshot.
+
+## Set up
+
+- You need to have node.js and npm installed before being able to run this program.
+- After cloning the project and directing to its directory, run ` $node app.js `. The program should then be available at http://localhost:3000/.
