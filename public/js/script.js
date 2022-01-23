@@ -1,0 +1,43 @@
+import { Ledis } from './support/Ledis.js';
+import { save, restore } from './support/snapshot.js';
+import { displayHelp } from './support/help.js';
+
+var D = new Ledis({}, {});
+
+// Couldn't find a better way to do this. 
+// This map replaces the switch statement and reduces a significant amount of code.
+const EXECUTE = {
+	'set': (arr) => D.set(arr),
+	'get': (arr) => D.get(arr),
+	'sadd': (arr) => D.sadd(arr),
+	'smembers': (arr) => D.smembers(arr),
+	'srem': (arr) => D.srem(arr),
+	'sinter': (arr) => D.sinter(arr),
+	'keys': (arr) => D.keys(arr),
+	'del': (arr) => D.del(arr),
+	'expire': (arr) => D.expire(arr),
+	'ttl': (arr) => D.ttl(arr),
+	'help': (arr) => displayHelp(arr),
+	'save': (arr, D) => save(arr, D),
+	'restore': (arr, D) => restore(arr, D)
+}
+
+/**
+ * Convert the input into an array and execute the command
+ */
+export function convertToArr(input) {
+	var inputArr = input.split(" ").filter(function (val) {
+		return val != "";
+	});
+
+	try {
+		inputArr[0] = inputArr[0].toLowerCase();
+		if (EXECUTE[inputArr[0]] === undefined) {
+			displayError();
+			return;
+		}
+		EXECUTE[inputArr[0]](inputArr, D);
+	} catch (error) {
+		displayError();
+	}
+}

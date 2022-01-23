@@ -17,7 +17,7 @@ const HELP = {
 	"restore": "RESTORE: restore from the last snapshot"
 };
 
-function displayHelp(inputArr) {
+export function displayHelp(inputArr) {
 	if (inputArr.length == 1) {
 		for (let key in HELP) {
 			displayOk(HELP[key], "grey");
