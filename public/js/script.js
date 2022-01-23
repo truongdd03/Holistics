@@ -1,13 +1,29 @@
 import { Ledis } from './support/Ledis.js';
 import { save, restore } from './support/snapshot.js';
 import { displayHelp } from './support/help.js';
-import { Interface } from 'readline';
 
-const CMD = ["set", "get", "sadd", 'srem', 'smembers', 'sinter', 'keys', 'del', 'expire', 'ttl', 'save', 'restore', 'help'];
 var D = new Ledis({}, {});
 
+// Couldn't find a better way to do this. 
+// This map replaces the switch statement and reduces a significant amount of code.
+const EXECUTE = {
+	'set': (arr) => D.set(arr),
+	'get': (arr) => D.get(arr),
+	'sadd': (arr) => D.sadd(arr),
+	'smembers': (arr) => D.smembers(arr),
+	'srem': (arr) => D.srem(arr),
+	'sinter': (arr) => D.sinter(arr),
+	'keys': (arr) => D.keys(arr),
+	'del': (arr) => D.del(arr),
+	'expire': (arr) => D.expire(arr),
+	'ttl': (arr) => D.ttl(arr),
+	'help': (arr) => displayHelp(arr),
+	'save': (arr, D) => save(arr, D),
+	'restore': (arr, D) => restore(arr, D)
+}
+
 /**
- * Convert the input into an array
+ * Convert the input into an array and execute the command
  */
 export function convertToArr(input) {
 	var inputArr = input.split(" ").filter(function (val) {
@@ -16,59 +32,12 @@ export function convertToArr(input) {
 
 	try {
 		inputArr[0] = inputArr[0].toLowerCase();
-		if (!CMD.includes(inputArr[0])) {
+		if (EXECUTE[inputArr[0]] === undefined) {
 			displayError();
 			return;
 		}
-		process(inputArr);
+		EXECUTE[inputArr[0]](inputArr, D);
 	} catch (error) {
 		displayError();
-	}
-}
-
-/**
- * Process the command
- */
-function process(inputArr) {
-	switch (inputArr[0]) {
-		case "set":
-			D.set(inputArr);
-			break;
-		case "get":
-			D.get(inputArr);
-			break;
-		case "sadd":
-			D.sadd(inputArr);
-			break;
-		case "smembers":
-			D.smembers(inputArr);
-			break;
-		case "srem":
-			D.srem(inputArr);
-			break;
-		case "sinter":
-			D.sinter(inputArr);
-			break;
-		case "keys":
-			D.keys(inputArr);
-			break;
-		case "del":
-			D.del(inputArr);
-			break;
-		case "expire":
-			D.expire(inputArr);
-			break;
-		case "ttl":
-			D.ttl(inputArr);
-			break;
-		case "help":
-			displayHelp(inputArr);
-			break;
-		case "save":
-			save(inputArr, D);
-			break;
-		case "restore":
-			restore(inputArr, D);
-			break;
 	}
 }

@@ -1,7 +1,7 @@
 /**
  * Display the prompt to the window
  */
- function display(prompt, color) {
+function display(prompt, color) {
 	var p = document.createElement('p');
 	p.textContent = `> ${prompt}`;
 	p.className = "output";
@@ -49,13 +49,13 @@ function displayWarning(key) {
 /**
  * Check if the inputs is valid for set queries
  */
- function validateSetQuery(inputArr, expect, canBeGreater, dict) {
+function validateSetQuery(inputArr, expect, canBeGreater, dict) {
 	if (!validateParams(inputArr, expect, canBeGreater)) {
 		return false;
 	}
 
 	const key = inputArr[1];
-	if (typeof(dict[key]) === 'string') {
+	if (typeof (dict[key]) === 'string') {
 		displayInvalidType("string");
 		return false;
 	}
