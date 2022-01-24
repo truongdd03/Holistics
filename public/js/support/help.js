@@ -1,7 +1,6 @@
 /**
  * Code for displaying the help menu
  */
-
 import { displayOk, displayError } from "./utility.js";
 
 const HELP = {
@@ -19,12 +18,18 @@ const HELP = {
 	"restore": "RESTORE: restore from the last snapshot"
 };
 
+/**
+ * Display the help menu
+ * @param {*} inputArr The command split
+ */
 export function displayHelp(inputArr) {
 	if (inputArr.length == 1) {
+		// Show the whole menu
 		for (let key in HELP) {
 			displayOk(HELP[key], "grey");
 		}
 	} else if (inputArr.length == 2) {
+		// Show a specific command's description
 		const key = inputArr[1];
 		if (!Array.from(Object.keys(HELP)).includes(key)) {
 			displayError("ERROR: Invalid command");

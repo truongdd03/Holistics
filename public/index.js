@@ -14,7 +14,7 @@ document.getElementById('input').onchange = function () {
 }
 
 /**
- * Add auto-complete mechanism
+ * Auto-complete mechanism
  */
 var prefix = undefined, viewed = {};
 document.getElementById('input').addEventListener('keydown', function (e) {

@@ -1,5 +1,7 @@
 /**
- * Display the prompt to the window
+ * Display the prompt
+ * @param {*} prompt The description
+ * @param {*} color The font color
  */
 export function display(prompt, color) {
 	var p = document.createElement('p');
@@ -13,20 +15,24 @@ export function display(prompt, color) {
 
 /**
  * Display the prompt when the number of parameters is invalid
+ * @param {*} given The real number of parameters
+ * @param {*} expected The expected number of parameters
  */
 function displayInvalidParams(given, expected) {
 	display(`ERROR: wrong number of arguments (given ${given}, expected ${expected})`, "red");
 }
 
 /**
- * Display in green color
+ * Display in success format
+ * @param {*} prompt Description of the success
  */
 export function displayOk(prompt = "OK") {
 	display(prompt, "green");
 }
 
 /**
- * Display in red color
+ * Display in error format
+ * @param {*} prompt Description of the error
  */
 export function displayError(prompt = "ERROR: Command not found") {
 	display(prompt, "red");
@@ -34,6 +40,7 @@ export function displayError(prompt = "ERROR: Command not found") {
 
 /**
  * Display the prompt of invalid type
+ * @param {*} expected The expected value's type
  */
 export function displayInvalidType(expected) {
 	display(`ERROR: Invalid type (Cannot perform this command since the current key is assigned to a ${expected})`, "red");
@@ -41,6 +48,11 @@ export function displayInvalidType(expected) {
 
 /**
  * Check if the inputs is valid for set queries
+ * @param {*} inputArr The command split
+ * @param {*} expect The expected number of parameters
+ * @param {*} canBeGreater True if the number of parameters can be greater than the expect varaible above
+ * @param {*} dict The dictionary that store all data
+ * @returns True if it is valid
  */
 export function validateSetQuery(inputArr, expect, canBeGreater, dict) {
 	if (!validateParams(inputArr, expect, canBeGreater)) {
@@ -57,6 +69,10 @@ export function validateSetQuery(inputArr, expect, canBeGreater, dict) {
 
 /**
  * Check if the number of parameters is valid
+ * @param {*} inputArr The command split
+ * @param {*} expect The expected number of parameters
+ * @param {*} canBeGreater True if the number of parameters can be greater than the expect varaible above
+ * @returns True if it is valid
  */
 export function validateParams(inputArr, expect, canBeGreater) {
 	if ((canBeGreater && inputArr.length - 1 < expect) || (!canBeGreater && inputArr.length != expect)) {

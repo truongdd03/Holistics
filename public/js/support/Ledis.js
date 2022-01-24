@@ -3,15 +3,14 @@
  * this.dict is a dictionary. For each pair (key, value), the value can be a string or a set
  * this.timeout is a dictionary storing the timeout and the time at when the user set the timeout for each key.
  */
-
 import {
-	display, 
-	displayOk, 
-	displayError, 
-	validateParams, 
-	validateSetQuery, 
+	display,
+	displayOk,
+	displayError,
+	validateParams,
+	validateSetQuery,
 	displayInvalidType
- } from "./utility.js";
+} from "./utility.js";
 
 export class Ledis {
 	constructor(dict, timeout) {
@@ -21,6 +20,7 @@ export class Ledis {
 
 	/**
 	 * Replace the value of a specific key by a string.
+	 * @param {*} inputArr The command split
 	 */
 	set(inputArr) {
 		if (!validateParams(inputArr, 3, false)) { return; }
@@ -31,8 +31,8 @@ export class Ledis {
 	}
 
 	/**
-	 * Get value of a string.
-	 * Throw an error if the value of this key is a set.
+	 * Get value of a string. Throw an error if the value of this key is a set.
+	 * @param {*} inputArr The command split
 	 */
 	get(inputArr) {
 		if (!validateParams(inputArr, 2, false)) { return; }
@@ -46,9 +46,8 @@ export class Ledis {
 	}
 
 	/**
-	 * Assign a set to a key.
-	 * Throw error if the current key is assigned to a string.
-	 * The new set will replace the old set of this key.
+	 * Assign a set to a key. Throw an error if the current key is assigned to a string.
+	 * @param {*} inputArr The command split
 	 */
 	sadd(inputArr) {
 		if (!validateSetQuery(inputArr, 2, true, this.dict)) { return; };
@@ -65,6 +64,7 @@ export class Ledis {
 	/**
 	 * Get value of a set.
 	 * Throw an error if the value of this key is a string.
+	 * @param {*} inputArr The command split
 	 */
 	smembers(inputArr) {
 		if (!validateSetQuery(inputArr, 2, false, this.dict)) { return; };
@@ -72,15 +72,15 @@ export class Ledis {
 		var key = inputArr[1];
 		try {
 			const output = Array.from(this.dict[key]).join(', ');
-			display(`{${output.toString()}}`, "green");	
+			display(`{${output.toString()}}`, "green");
 		} catch (error) {
 			display("undefined", "green");
 		}
 	}
 
 	/**
-	 * Remove some values out of the set
-	 * Throw an error if the value of this key is a string
+	 * Remove some values out of the set. Throw an error if the value of this key is a string
+	 * @param {*} inputArr The command split
 	 */
 	srem(inputArr) {
 		if (!validateSetQuery(inputArr, 2, true, this.dict)) { return; }
@@ -102,6 +102,7 @@ export class Ledis {
 
 	/**
 	 * Return the intersect of list of keys
+	 * @param {*} inputArr The command split
 	 */
 	sinter(inputArr) {
 		if (!validateSetQuery(inputArr, 1, true, this.dict)) { return; }
@@ -109,6 +110,7 @@ export class Ledis {
 		var ans = new Set(), first = true;
 		for (let i = 1; i < inputArr.length; ++i) {
 			var key = inputArr[i];
+
 			if (!(this.dict[key] instanceof Set)) {
 				display(`WARNING: The value of key "${key}" is not a set`, "yellow");
 				ans.clear();
@@ -122,11 +124,12 @@ export class Ledis {
 		}
 
 		const output = Array.from(ans).join(', ');
-		display(`{${output.toString()}}`, "green");	
+		display(`{${output.toString()}}`, "green");
 	}
 
 	/**
 	 * Return all the keys
+	 * @param {*} inputArr The command split
 	 */
 	keys(inputArr) {
 		if (!validateParams(inputArr, 1, false)) { return; }
@@ -137,17 +140,19 @@ export class Ledis {
 
 	/**
 	 * Delete a key
+	 * @param {*} inputArr The command split
 	 */
 	del(inputArr) {
 		if (!validateParams(inputArr, 2, false)) { return; }
 
-		delete(this.dict[inputArr[1]]);
-		delete(this.timeout[inputArr[1]]);
+		delete (this.dict[inputArr[1]]);
+		delete (this.timeout[inputArr[1]]);
 		displayOk();
 	}
 
 	/**
 	 * Set a timeout on a key
+	 * @param {*} inputArr The command split
 	 */
 	expire(inputArr) {
 		if (!validateParams(inputArr, 3, false)) { return; }
@@ -164,7 +169,7 @@ export class Ledis {
 
 		this.timeout[key] = [sec, new Date()];
 		setTimeout(() => {
-			// Need to check since a restore action can make this timeout become undefine.
+			// Need to check since a restore action can make this timeout become undefined.
 			// In that case, we no longer need to remove this key.
 			if (this.timeout[key] != undefined) {
 				delete this.dict[key];
@@ -177,6 +182,7 @@ export class Ledis {
 
 	/**
 	 * Return the timeout of a key
+	 * @param {*} inputArr The command split
 	 */
 	ttl(inputArr) {
 		if (!validateParams(inputArr, 2, false)) { return; }
@@ -192,6 +198,6 @@ export class Ledis {
 
 		// The current timeout = (the origin timeout) - (duration from the moment setting the timeout to now)
 		const time = originTimeout - (currentDate.getTime() - timeSet.getTime());
-		displayOk(`The key ${key} will be deleted after ${time/1000} seconds`);
+		displayOk(`The key ${key} will be deleted after ${time / 1000} seconds`);
 	}
 }

@@ -28,9 +28,11 @@ CMDS.sort();
 
 /**
  * Convert the input into an array and execute the command
+ * @param {*} input The command entered
  */
 export function convertToArr(input) {
 	var inputArr = input.split(" ").filter(function (val) {
+		// Skip empty spaces
 		return val != "";
 	});
 
@@ -49,11 +51,15 @@ export function convertToArr(input) {
 
 /**
  * Suggest a command for user. Used for auto-completing
+ * @param {*} prefix The current prefix
+ * @param {*} viewed The list of words suggested
+ * @returns The next suggested word
  */
 export function suggest(prefix, viewed) {
 	if (prefix === "") return input;
 
 	for (let key of CMDS) {
+		// If this key matches the prefix and the user hasn't seen it
 		if (key.indexOf(prefix) === 0 && viewed[key] === undefined) {
 			viewed[key] = true;
 			return key;
