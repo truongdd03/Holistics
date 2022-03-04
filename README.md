@@ -1,4 +1,6 @@
-# Holistics - Ledis
+# Ledis
+
+A simple version of [Redis](https://redis.io)
 
 The main idea behind the implementation is to use two dictionaries (one for timeout and one for key-value) to store the data. At first, the program used the switch statement to identify the commands and perform proper actions. However, as the number of commands grew up, I decided to use a hash map to store these commands. This reduces a significant amount of code. The most challenging requirement is saving and loading the old version. This feature was made by writing data to localStorage.
 
@@ -12,16 +14,6 @@ The main idea behind the implementation is to use two dictionaries (one for time
 
 ## Features
 
-Completed all the required/optional features (details below). Besides that, I also added some other features that may be useful.
-
-### Additional Features
-
-- [x] HELP: displaying help for all the commands.
-- [x] HELP + COMMAND: displaying help for a specific command.
-- [x] Auto-complete: complete the input when users click tab.
-
-### Requirements
-
 #### String
 
 - [x] SET key value: set a string value, always overwriting what is saved under key.
@@ -32,6 +24,8 @@ Completed all the required/optional features (details below). Besides that, I al
 - [x] SADD key value1 [value2...]: add values to set stored at key.
 - [x] SREM key value1 [value2...]: remove values from set.
 - [x] SMEMBERS key: return array of all members of set.
+- [x] SINTER [key1] [key2] [key3] ...: (bonus) set intersection among all set stored in specified keys. Return array of members of the result set.
+
 
 #### Data Expiration
 
@@ -42,14 +36,15 @@ Completed all the required/optional features (details below). Besides that, I al
 
 #### Error Handling
 
-- [x] Detect errors.
+- [x] Detect errors and display detailed information.
 
-### Optional Features
+#### Others
 
-- [x] Display detailed informations about errors.
-- [x] SINTER [key1] [key2] [key3] ...: (bonus) set intersection among all set stored in specified keys. Return array of members of the result set.
 - [x] SAVE: save current state in a snapshot.
 - [x] RESTORE: restore from the last snapshot.
+- [x] HELP: displaying help for all the commands.
+- [x] HELP + COMMAND: displaying help for a specific command.
+- [x] Auto-complete: complete the input when users click tab.
 
 ## Set up
 
